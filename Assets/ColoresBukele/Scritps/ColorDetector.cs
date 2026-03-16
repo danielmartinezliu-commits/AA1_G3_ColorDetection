@@ -7,14 +7,18 @@ using UnityEngine.UI;
 public class ColorDetector : MonoBehaviour
 {
     public ARCameraManager cameraManager;
-    public Image square;
-    public Image centerImage;
+    public Image previewColorImage;
+    public Image selectedColorImage;
+
+    private Color detectedColor;
+    private Color selectedColor = Color.white;
     void FixedUpdate()
     {
+        CaptureColorUpdate();
+    }
 
-        if (Time.frameCount % 5 != 0)
-            return;
-
+    private void CaptureColorUpdate()
+    {
         if (cameraManager.TryAcquireLatestCpuImage(out XRCpuImage image))
         {
             var conversionParams = new XRCpuImage.ConversionParams
@@ -33,7 +37,6 @@ public class ColorDetector : MonoBehaviour
 
             int centerX = image.width / 2;
             int centerY = image.height / 2;
-            //centerImage.rectTransform.position = new Vector2(centerX, centerY);
 
             int index = (centerY * image.width + centerX) * 3;
 
@@ -41,10 +44,20 @@ public class ColorDetector : MonoBehaviour
             byte g = buffer[index + 1];
             byte b = buffer[index + 2];
 
-            square.color = new Color32(r , g, b, 255);
+            detectedColor = new Color32(r, g, b, 255);
+
+            previewColorImage.color = detectedColor;
+
             Debug.Log("RGB: " + r + ", " + g + ", " + b);
 
             buffer.Dispose();
         }
     }
+
+    public void CaptureCurrentColor()
+    {
+        selectedColor = detectedColor;
+        selectedColorImage.color = selectedColor;
+    }
+    public Color GetSelectedColor() { return selectedColor; }
 }
