@@ -8,10 +8,8 @@ public class ColorDetector : MonoBehaviour
 {
     public ARCameraManager cameraManager;
     public Image previewColorImage;
-    public Image selectedColorImage;
 
     private Color detectedColor;
-    private Color selectedColor = Color.white;
     void FixedUpdate()
     {
         CaptureColorUpdate();
@@ -54,10 +52,5 @@ public class ColorDetector : MonoBehaviour
         }
     }
 
-    public void CaptureCurrentColor()
-    {
-        selectedColor = detectedColor;
-        selectedColorImage.color = selectedColor;
-    }
-    public Color GetSelectedColor() { return selectedColor; }
+    public Color GetSelectedColor() { return detectedColor; }
 }

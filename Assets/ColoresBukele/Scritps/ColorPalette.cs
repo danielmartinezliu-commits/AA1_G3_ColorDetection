@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public struct ColorPalette
 {
@@ -12,13 +11,12 @@ public struct ColorPalette
     }
 
     public Color GetSelectedColor() { return selectedColor; }
-    public Color[] GetPalette() {  return selectedColorPalette; }
+    public Color[] GetPaletteColors() { return selectedColorPalette; }
     public Color GetPrimaryColor() { return primaryColorToSelected; }
     public Color GetContrastColor() { return contrastColor; }
 
-    Color selectedColor;
-    Color[] selectedColorPalette;
-    Color primaryColorToSelected;
-    Color contrastColor;
-    
+    private Color selectedColor;
+    private Color[] selectedColorPalette;
+    private Color primaryColorToSelected;
+    private Color contrastColor;
 }

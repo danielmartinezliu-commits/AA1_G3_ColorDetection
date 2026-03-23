@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ColorManager : MonoBehaviour
 {
@@ -8,8 +9,26 @@ public class ColorManager : MonoBehaviour
     private ColorDetector detector;
     [SerializeField]
     private GameObject colorPickerObject;
+
+
     private IColorPicker colorPicker;
 
+    private ColorPalette currentPalette;
+
+
+    [Space, SerializeField]
+    private Image selectedColorImage;
+    [SerializeField]
+    private Image closestPrimaryColorImage;
+    [SerializeField]
+    private Image contrastColorImage;
+
+    [Space, SerializeField]
+    private GameObject colorImagePrefab;
+    [SerializeField]
+    private Transform colorImagesSpawnPos;
+    [SerializeField]
+    private float colorImagesOffset;
 
     private void Awake()
     {
@@ -33,13 +52,23 @@ public class ColorManager : MonoBehaviour
 
     public void CaptureCurrentColor()
     {
-        detector.CaptureCurrentColor();
+        currentPalette = colorPicker.GetColorPalette(detector.GetSelectedColor());
+        selectedColorImage.color = currentPalette.GetSelectedColor();
+        closestPrimaryColorImage.color = currentPalette.GetPrimaryColor();
+        contrastColorImage.color = currentPalette.GetContrastColor();
+
+        Color[] paletteColors = currentPalette.GetPaletteColors();
+
+        for (int i = 0; i < paletteColors.Length; i++)
+        {
+            GameObject paletteColorObj = Instantiate(colorImagePrefab, colorImagesSpawnPos);
+
+            paletteColorObj.transform.position = colorImagesSpawnPos.position + new Vector3(0, -colorImagesOffset * i);
+            paletteColorObj.GetComponent<Image>().color = paletteColors[i];
+        }
     }
 
-    public ColorPalette GetColorPalette()
-    {
-        return colorPicker.GetColorPalette(detector.GetSelectedColor());
-    }
+    public ColorPalette GetCurrentPalette() { return currentPalette; }
 
 
 
