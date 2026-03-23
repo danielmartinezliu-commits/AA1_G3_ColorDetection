@@ -1,31 +1,20 @@
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.XR.ARFoundation;
 
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+[RequireComponent(typeof(ARPlane))]
 public class NavMeshVisualizer : MonoBehaviour
 {
-    private Mesh mesh;
+    private ARPlane plane;
+    private MeshRenderer meshRenderer;
 
-    void Start()
+    void Awake()
     {
-        mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
+        plane = GetComponent<ARPlane>();
+
+        meshRenderer = GetComponent<MeshRenderer>();
 
         var mat = new Material(Shader.Find("Standard"));
         mat.color = new Color(0, 1, 0, 0.3f);
-        mat.SetFloat("_Mode", 3);
-        GetComponent<MeshRenderer>().material = mat;
-
-        InvokeRepeating(nameof(UpdateMesh), 1.5f, 2f);
-    }
-
-    void UpdateMesh()
-    {
-        NavMeshTriangulation tri = NavMesh.CalculateTriangulation();
-
-        mesh.Clear();
-        mesh.vertices = tri.vertices;
-        mesh.triangles = tri.indices;
-        mesh.RecalculateNormals();
+        meshRenderer.material = mat;
     }
 }

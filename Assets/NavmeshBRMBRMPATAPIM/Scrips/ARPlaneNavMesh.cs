@@ -18,10 +18,10 @@ public class ARPlaneNavMesh : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating(nameof(BuildNavMesh), 1f, 2f);
+        InvokeRepeating(nameof(Build), 1f, 2f);
     }
 
-    public void BuildNavMesh()
+    public void Build()
     {
         surface.BuildNavMesh();
     }
