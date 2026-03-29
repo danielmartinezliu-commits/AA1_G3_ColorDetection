@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
-using UnityEngine.XR.ARFoundation;
 
 public class ARNavMeshDebuggerRuntime : MonoBehaviour
 {
-    [Header("Colores NavMesh")]
-    public Color colorNavMeshRelleno = new Color(0.1f, 0.5f, 1f, 0.35f);
-    public Color colorNavMeshBorde   = new Color(0.1f, 0.7f, 1f, 0.9f);
+    [Header("NavMesh Colors")]
+    public Color fillColor   = new Color(0.1f, 0.5f, 1f, 0.35f);
+    public Color borderColor = new Color(0.1f, 0.7f, 1f, 0.9f);
 
     private Material _mat;
     private Camera   _cam;
@@ -41,14 +40,11 @@ public class ARNavMeshDebuggerRuntime : MonoBehaviour
 
     void OnEndCameraRendering(ScriptableRenderContext context, Camera cam)
     {
-        // Solo dibujamos para la camara donde esta el script
         if (cam != _cam) return;
 
         _mat.SetPass(0);
         GL.PushMatrix();
-
         DrawNavMeshTriangulation();
-
         GL.PopMatrix();
     }
 
@@ -60,7 +56,7 @@ public class ARNavMeshDebuggerRuntime : MonoBehaviour
         float offset = 0.02f;
 
         GL.Begin(GL.TRIANGLES);
-        GL.Color(colorNavMeshRelleno);
+        GL.Color(fillColor);
         for (int i = 0; i < tri.indices.Length; i += 3)
         {
             GL.Vertex(tri.vertices[tri.indices[i]]     + Vector3.up * offset);
@@ -70,7 +66,7 @@ public class ARNavMeshDebuggerRuntime : MonoBehaviour
         GL.End();
 
         GL.Begin(GL.LINES);
-        GL.Color(colorNavMeshBorde);
+        GL.Color(borderColor);
         for (int i = 0; i < tri.indices.Length; i += 3)
         {
             Vector3 v0 = tri.vertices[tri.indices[i]]     + Vector3.up * (offset + 0.002f);

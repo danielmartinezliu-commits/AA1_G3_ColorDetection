@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/NavmeshBRMBRMPATAPIM/Scene/NavigationAR.unity
+    path: Assets/ARNavMeshBuilder/Scene/NavigationAR.unity
     guid: 016125dca1becbe43986628a5f910028
   - enabled: 1
-    path: Assets/ColoresBukele/Scenes/ColorDetector.unity
+    path: Assets/ARColorPicker/Scenes/ColorDetector.unity
     guid: f9cb5aef61b35d94890d3e706aa35ac7
   - enabled: 1
     path: Assets/Base/Scenes/SampleScene.unity
